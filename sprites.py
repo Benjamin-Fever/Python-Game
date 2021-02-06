@@ -15,6 +15,7 @@ class GameObject:
             if "No such file or directory" in str(error):
                 self.image = pg.image.load(MISSING_TEXTURE).convert()
         self.rect = self.image.get_rect()
+        self.pos = pos
         self.rect.x = pos[0]
         self.rect.y = pos[1]
         self.solid = solid
@@ -30,7 +31,9 @@ class Tile:
     def __init__(self, pos, index, tile_set, depth=-1, updatable=True):
         self.index = index
         self.updatable = updatable
-        self.tile_set = pg.image.load(tile_set).convert()
-        self.image = pg.transform.chop(self.tile_set, (0, 0, index * 16, 0))
         self.depth = depth
         self.pos = pos
+
+        self.tile_set = pg.image.load(tile_set).convert()
+        self.image = pg.Surface((TILE_SIZE, TILE_SIZE))
+        self.image.blit(self.tile_set, (0, 0), (index[0] * 16, index[1] * 16, TILE_SIZE, TILE_SIZE))

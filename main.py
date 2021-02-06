@@ -3,7 +3,6 @@ from sprites import *
 from settings import *
 from algorithms import *
 from math import *
-from copy import deepcopy
 import pygame as pg
 
 
@@ -18,6 +17,7 @@ class Game:
         self.tiles = []
         self.clock = pg.time.Clock()
         self.running = True
+        self.camera = [0, 0]
 
     def start(self):
         self.objects.append(GameObject(window, "player", (64, 64), "textures/player.png", can_move=True))
@@ -36,14 +36,9 @@ class Game:
                 self.running = False
 
     def draw(self):
+        self.screen.fill((0, 0, 0))
         for draw in sort_draw_hierarchy(self.objects + self.loaded_map.tiles):
-            if draw.updatable:
-                try:
-                    self.screen.blit(draw.image, draw.rect)
-                except AttributeError as error:
-                    if str(error) == "'Tile' object has no attribute 'rect'":
-                        self.screen.blit(draw.image, draw.pos)
-                draw.updatable = False
+            self.screen.blit(draw.image, (draw.pos[0]-self.camera[0], draw.pos[1]-self.camera[1]))
 
     def update(self):
         for obj in self.objects:

@@ -22,5 +22,6 @@ def load_map(name):
         loading_map = GameMap(data["Name"])
         for y in range(0, len(data['Tile Map'])):
             for x in range(0, len(data['Tile Map'][y])):
-                loading_map.tiles.append(Tile((x * 16, y * 16), data['Tile Map'][y][x], "textures/tileset.gif"))
+                temp_tile = Tile((x * 16, y * 16), data['Tile Map'][y][x], "textures/tileset.gif")
+                loading_map.tiles.append(temp_tile)
     return loading_map
