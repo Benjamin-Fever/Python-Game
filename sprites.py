@@ -2,18 +2,21 @@ from object_event import *
 import pygame as pg
 
 
+def load_image(img_loc):
+    image = pg.image.load(MISSING_TEXTURE)
+    try:
+        image = pg.image.load(img_loc)
+    except Exception as error:
+        print("Error loading image:", error, "\nLoading missing texture instead...")
+    return image.convert()
+
+
 class GameObject:
-    def __init__(self, game, label, pos,
-                 image_loc="textures/missing_texture.png", depth=0, solid=True, visible=True, updatable=True, **kwargs):
+    def __init__(self, game, label, pos, image_loc=MISSING_TEXTURE, depth=0, solid=True, visible=True, **kwargs):
         self.game = game
         self.label = label
         self.depth = depth
-        self.updatable = updatable
-        try:
-            self.image = pg.image.load(image_loc).convert()
-        except FileNotFoundError as error:
-            if "No such file or directory" in str(error):
-                self.image = pg.image.load(MISSING_TEXTURE).convert()
+        self.image = load_image(image_loc)
         self.rect = self.image.get_rect()
         self.pos = pos
         self.rect.x = pos[0]
@@ -28,12 +31,10 @@ class GameObject:
 
 
 class Tile:
-    def __init__(self, pos, index, tile_set, depth=-1, updatable=True):
+    def __init__(self, pos, index, tile_set, depth=-1):
         self.index = index
-        self.updatable = updatable
         self.depth = depth
         self.pos = pos
-
-        self.tile_set = pg.image.load(tile_set).convert()
+        self.tile_set = load_image(tile_set)
         self.image = pg.Surface((TILE_SIZE, TILE_SIZE))
-        self.image.blit(self.tile_set, (0, 0), (index[0] * 16, index[1] * 16, TILE_SIZE, TILE_SIZE))
+        self.image.blit(self.tile_set, (0, 0), pg.Rect(index[0] * 16, index[1] * 16, TILE_SIZE, TILE_SIZE))
