@@ -1,4 +1,5 @@
 from object_event import *
+import math
 import pygame as pg
 
 
@@ -37,4 +38,7 @@ class Tile:
         self.pos = pos
         self.tile_set = load_image(tile_set)
         self.image = pg.Surface((TILE_SIZE, TILE_SIZE))
-        self.image.blit(self.tile_set, (0, 0), pg.Rect(index[0] * 16, index[1] * 16, TILE_SIZE, TILE_SIZE))
+        y = (math.ceil(index / (self.tile_set.get_width() / TILE_SIZE)))
+        x = (index - (math.floor(index / (self.tile_set.get_width() / TILE_SIZE)) * 18))
+        print(x, y)
+        self.image.blit(self.tile_set, (0, 0), pg.Rect(x * 16, 0, 16, 16))

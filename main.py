@@ -38,7 +38,7 @@ class Game:
     def draw(self):
         self.screen.fill((0, 0, 0))
         for draw in sort_draw_hierarchy(self.objects + self.loaded_map.tiles):
-            self.screen.blit(draw.image, (draw.pos[0]-self.camera[0], draw.pos[1]-self.camera[1]))
+            self.screen.blit(draw.image, (draw.pos[0]*16, draw.pos[1]*16))
 
     def update(self):
         for obj in self.objects:

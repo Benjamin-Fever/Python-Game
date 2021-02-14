@@ -19,9 +19,18 @@ class Camera:
 def load_map(name):
     with open(r'' + MAPS[name]) as file:
         data = json.load(file)
-        loading_map = GameMap(data["Name"])
-        for y in range(0, len(data['Tile Map'])):
-            for x in range(0, len(data['Tile Map'][y])):
-                temp_tile = Tile((x * 16, y * 16), data['Tile Map'][y][x], "textures/tileset.gif")
-                loading_map.tiles.append(temp_tile)
+        loading_map = GameMap(data["name"])
+        for layer in data["layers"]:
+            for column in range(0, len(layer["data"])):
+                for row in range(0, len(layer["data"][column])):
+                    if layer["type"] == "tile-set":
+                        if layer["data"][column][row] > 0:
+                            loading_map.tiles.append(
+                                Tile(
+                                    (column * TILE_SIZE, row * TILE_SIZE),
+                                    layer["data"][column][row],
+                                    layer["tile-set"]
+                                )
+                            )
+
     return loading_map
