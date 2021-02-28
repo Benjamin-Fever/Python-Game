@@ -40,5 +40,4 @@ class Tile:
         self.image = pg.Surface((TILE_SIZE, TILE_SIZE))
         y = (math.ceil(index / (self.tile_set.get_width() / TILE_SIZE)))
         x = (index - (math.floor(index / (self.tile_set.get_width() / TILE_SIZE)) * 18))
-        print(x, y)
-        self.image.blit(self.tile_set, (0, 0), pg.Rect(x * 16, 0, 16, 16))
+        self.image.blit(self.tile_set, (0, 0), pg.Rect((x - 1) * 16, (y - 1) * 16, 16, 16))

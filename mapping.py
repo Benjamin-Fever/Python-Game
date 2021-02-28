@@ -17,23 +17,19 @@ class Camera:
 
 
 def load_map(name):
-    x = 0
     with open(r'' + MAPS[name]) as file:
         data = json.load(file)
         loading_map = GameMap(data["name"])
         for layer in data["layers"]:
-            for column in range(0, len(layer["data"])):
-                for row in range(0, len(layer["data"][column])):
+            for y in range(0, len(layer["data"])):
+                for x in range(0, len(layer["data"][y])):
                     if layer["type"] == "tile-set":
-                        if layer["data"][column][row] > 0:
-                            x += 1
-                            print(x)
+                        if layer["data"][y][x] > 0:
                             loading_map.tiles.append(
                                 Tile(
-                                    (column * TILE_SIZE, row * TILE_SIZE),
-                                    layer["data"][column][row],
+                                    (x * TILE_SIZE, y * TILE_SIZE),
+                                    layer["data"][y][x],
                                     layer["tile-set"]
                                 )
                             )
-    print(loading_map)
     return loading_map

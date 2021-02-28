@@ -20,7 +20,7 @@ class Game:
         self.camera = [0, 0]
 
     def start(self):
-        self.objects.append(GameObject(window, "player", (64, 64), "textures/player.png", can_move=True))
+        self.objects.append(GameObject(window, "player", (0, 0), "textures/player.png", can_move=True))
         self.objects.append(GameObject(window, "wall", (380, 64), "textures/wall.png"))
         self.loaded_map = load_map(self.map)
         while self.running:
@@ -38,7 +38,7 @@ class Game:
     def draw(self):
         self.screen.fill((0, 0, 0))
         for draw in sort_draw_hierarchy(self.objects + self.loaded_map.tiles):
-            self.screen.blit(draw.image, (draw.pos[0]*16, draw.pos[1]*16))
+            self.screen.blit(draw.image, (draw.pos[0], draw.pos[1]))
 
     def update(self):
         for obj in self.objects:
